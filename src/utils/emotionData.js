@@ -2,9 +2,9 @@ import {
   Zap, Smile, PartyPopper, Sparkles, Battery,
   Heart, Award, Star, Compass, TrendingUp,
   Moon, Waves, Leaf, Check, Circle,
-  Flame, Frown, AlertTriangle, Cloud, Dizzy,
+  Flame, Frown, AlertTriangle, Cloud, Zap as Lightning,
   AlertCircle, Eye, Shuffle, HelpCircle, Minus,
-  Droplets, CircleDot, Sleep, Square, Volume
+  Droplets, CircleDot, Moon as Sleepy, Square, VolumeX
 } from 'lucide-react'
 
 export const emotionCategories = {
@@ -37,7 +37,7 @@ export const emotionCategories = {
       { name: 'Frustrated', color: '#FF6B6B', icon: Frown, gradient: 'from-red-400 to-red-600' },
       { name: 'Irritated', color: '#FF8888', icon: AlertTriangle, gradient: 'from-red-300 to-red-500' },
       { name: 'Stressed', color: '#FFA5A5', icon: Cloud, gradient: 'from-red-200 to-red-400' },
-      { name: 'Overwhelmed', color: '#FFC2C2', icon: Dizzy, gradient: 'from-red-100 to-red-300' }
+      { name: 'Overwhelmed', color: '#FFC2C2', icon: Lightning, gradient: 'from-red-100 to-red-300' }
     ],
     midEnergy: [
       { name: 'Anxious', color: '#FFB366', icon: AlertCircle, gradient: 'from-orange-300 to-orange-500' },
@@ -49,9 +49,9 @@ export const emotionCategories = {
     lowEnergy: [
       { name: 'Sad', color: '#9CA4D9', icon: Droplets, gradient: 'from-indigo-300 to-indigo-500' },
       { name: 'Lonely', color: '#B3B9E3', icon: CircleDot, gradient: 'from-indigo-200 to-indigo-400' },
-      { name: 'Tired', color: '#CACEEC', icon: Sleep, gradient: 'from-indigo-100 to-indigo-300' },
+      { name: 'Tired', color: '#CACEEC', icon: Sleepy, gradient: 'from-indigo-100 to-indigo-300' },
       { name: 'Bored', color: '#E1E3F5', icon: Square, gradient: 'from-indigo-50 to-indigo-200' },
-      { name: 'Numb', color: '#F8F9FF', icon: Volume, gradient: 'from-gray-50 to-indigo-100' }
+      { name: 'Numb', color: '#F8F9FF', icon: VolumeX, gradient: 'from-gray-50 to-indigo-100' }
     ]
   }
 }
