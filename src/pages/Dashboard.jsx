@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Heart, BookOpen, Sparkles, TrendingUp, Calendar, Clock, Star, RefreshCw, Brain } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { generateDailyEncouragement, generateBubbleInsights } from '../utils/aiService'
+import { getEmotionIcon, getEmotionGradient, getAllEmotions } from '../utils/emotionData'
 import { format } from 'date-fns'
 
 const Dashboard = () => {
@@ -108,23 +109,23 @@ const Dashboard = () => {
 
       {/* Daily Encouragement */}
       {dailyEncouragement && (
-        <div className="mb-8 card bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 border border-pink-200/50">
+        <div className="mb-8 card bg-accent/10 border border-accent/20">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
-                <Star className="w-5 h-5 text-pink-500" />
-                <h2 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Daily Bubble Affirmation</h2>
+                <Star className="w-5 h-5 text-accent" />
+                <h2 className="text-lg font-semibold text-accent">Daily Bubble Affirmation</h2>
               </div>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed italic">
+              <p className="text-foreground leading-relaxed italic">
                 "{dailyEncouragement}"
               </p>
             </div>
             <button
               onClick={loadDailyEncouragement}
               disabled={loadingEncouragement}
-              className="ml-4 p-2 rounded-full hover:bg-pink-100 dark:hover:bg-pink-900/20 transition-colors"
+              className="ml-4 p-2 rounded-full hover:bg-accent/10 transition-colors"
             >
-              <RefreshCw className={`w-4 h-4 text-pink-600 ${loadingEncouragement ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-4 h-4 text-accent ${loadingEncouragement ? 'animate-spin' : ''}`} />
             </button>
           </div>
         </div>
@@ -134,9 +135,9 @@ const Dashboard = () => {
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-primary mb-4">Your Wellness Sanctuary</h2>
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="card bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-purple-200/20">
+          <div className="card bg-accent/10 border border-accent/20">
             <div className="flex items-center space-x-3 mb-3">
-              <Heart className="w-6 h-6 text-pink-500" />
+              <Heart className="w-6 h-6 text-accent" />
               <h3 className="font-semibold text-primary">Feeling Bubbles</h3>
             </div>
             <p className="text-sm text-secondary">
@@ -144,9 +145,9 @@ const Dashboard = () => {
             </p>
           </div>
           
-          <div className="card bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-200/20">
+          <div className="card bg-accent/10 border border-accent/20">
             <div className="flex items-center space-x-3 mb-3">
-              <BookOpen className="w-6 h-6 text-blue-500" />
+              <BookOpen className="w-6 h-6 text-accent" />
               <h3 className="font-semibold text-primary">Thought Streams</h3>
             </div>
             <p className="text-sm text-secondary">
@@ -154,9 +155,9 @@ const Dashboard = () => {
             </p>
           </div>
           
-          <div className="card bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-200/20">
+          <div className="card bg-accent/10 border border-accent/20">
             <div className="flex items-center space-x-3 mb-3">
-              <Sparkles className="w-6 h-6 text-emerald-500" />
+              <Sparkles className="w-6 h-6 text-accent" />
               <h3 className="font-semibold text-primary">Calm Currents</h3>
             </div>
             <p className="text-sm text-secondary">
@@ -249,51 +250,51 @@ const Dashboard = () => {
         <div className="space-y-6">
           {/* Weekly AI Insights */}
           {weeklyInsights && (
-            <div className="card bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200/50">
+            <div className="card bg-accent/10 border border-accent/20">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Brain className="w-5 h-5 text-blue-600" />
-                  <h2 className="text-lg font-semibold text-blue-700 dark:text-blue-300">{weeklyInsights.headline}</h2>
+                  <Brain className="w-5 h-5 text-accent" />
+                  <h2 className="text-lg font-semibold text-accent">{weeklyInsights.headline}</h2>
                 </div>
                 <button
                   onClick={loadWeeklyInsights}
                   disabled={loadingInsights}
-                  className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
+                  className="p-2 rounded-full hover:bg-accent/10 transition-colors"
                 >
-                  <RefreshCw className={`w-4 h-4 text-blue-600 ${loadingInsights ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`w-4 h-4 text-accent ${loadingInsights ? 'animate-spin' : ''}`} />
                 </button>
               </div>
               
               <div className="space-y-4">
-                <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl">
-                  <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-1">Pattern Recognition</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{weeklyInsights.mainInsight}</p>
+                <div className="p-3 bg-muted/50 rounded-xl">
+                  <h4 className="font-medium text-foreground mb-1">Pattern Recognition</h4>
+                  <p className="text-sm text-muted-foreground">{weeklyInsights.mainInsight}</p>
                 </div>
                 
                 {weeklyInsights.positivePattern && (
-                  <div className="p-3 bg-green-100/50 dark:bg-green-900/20 rounded-xl">
-                    <h4 className="font-medium text-green-700 dark:text-green-300 mb-1">Positive Flow</h4>
-                    <p className="text-sm text-green-600 dark:text-green-400">{weeklyInsights.positivePattern}</p>
+                  <div className="p-3 bg-accent/10 rounded-xl">
+                    <h4 className="font-medium text-accent mb-1">Positive Flow</h4>
+                    <p className="text-sm text-accent">{weeklyInsights.positivePattern}</p>
                   </div>
                 )}
                 
                 {weeklyInsights.gentleObservation && (
-                  <div className="p-3 bg-purple-100/50 dark:bg-purple-900/20 rounded-xl">
-                    <h4 className="font-medium text-purple-700 dark:text-purple-300 mb-1">Gentle Observation</h4>
-                    <p className="text-sm text-purple-600 dark:text-purple-400">{weeklyInsights.gentleObservation}</p>
+                  <div className="p-3 bg-accent/10 rounded-xl">
+                    <h4 className="font-medium text-accent mb-1">Gentle Observation</h4>
+                    <p className="text-sm text-accent">{weeklyInsights.gentleObservation}</p>
                   </div>
                 )}
                 
                 {weeklyInsights.actionableInsight && (
-                  <div className="p-3 bg-yellow-100/50 dark:bg-yellow-900/20 rounded-xl">
-                    <h4 className="font-medium text-yellow-700 dark:text-yellow-300 mb-1">Gentle Suggestion</h4>
-                    <p className="text-sm text-yellow-600 dark:text-yellow-400">{weeklyInsights.actionableInsight}</p>
+                  <div className="p-3 bg-accent/10 rounded-xl">
+                    <h4 className="font-medium text-accent mb-1">Gentle Suggestion</h4>
+                    <p className="text-sm text-accent">{weeklyInsights.actionableInsight}</p>
                   </div>
                 )}
                 
-                <div className="p-3 bg-pink-100/50 dark:bg-pink-900/20 rounded-xl">
-                  <h4 className="font-medium text-pink-700 dark:text-pink-300 mb-1">Celebration</h4>
-                  <p className="text-sm text-pink-600 dark:text-pink-400">{weeklyInsights.celebration}</p>
+                <div className="p-3 bg-accent/10 rounded-xl">
+                  <h4 className="font-medium text-accent mb-1">Celebration</h4>
+                  <p className="text-sm text-accent">{weeklyInsights.celebration}</p>
                 </div>
               </div>
             </div>
@@ -349,17 +350,49 @@ const Dashboard = () => {
               recentMoods.map(mood => (
                 <div
                   key={mood.id}
-                  className="flex items-center space-x-3 p-3 rounded-xl bg-muted"
+                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-gradient-to-r from-muted to-muted/70 hover:from-accent/10 hover:to-accent/5 transition-all duration-300 shadow-sm hover:shadow-md"
                 >
-                  <span className="text-2xl">{mood.emoji || '💭'}</span>
+                  {(() => {
+                    const EmotionIcon = getEmotionIcon(mood.emotion)
+                    const gradient = getEmotionGradient(mood.emotion)
+                    
+                    // Get optimal text color for the mood color (similar to MoodCheckIn logic)
+                    const getOptimalIconColor = (emotionName) => {
+                      // Find the emotion object to get its color
+                      const emotions = getAllEmotions()
+                      const emotion = emotions.find(e => e.name.toLowerCase() === emotionName.toLowerCase())
+                      if (!emotion) return 'text-white'
+                      
+                      // Convert hex to RGB and calculate luminance
+                      const hexColor = emotion.color
+                      const r = parseInt(hexColor.slice(1, 3), 16)
+                      const g = parseInt(hexColor.slice(3, 5), 16)
+                      const b = parseInt(hexColor.slice(5, 7), 16)
+                      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+                      
+                      return luminance > 0.55 ? 'text-gray-900' : 'text-white'
+                    }
+                    
+                    const iconColor = getOptimalIconColor(mood.emotion)
+                    
+                    return (
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg group-hover:scale-105 transition-transform relative overflow-hidden`}>
+                        {/* Add contrast overlay for better visibility */}
+                        <div className={`absolute inset-0 ${iconColor === 'text-gray-900' ? 'bg-white/40' : 'bg-black/30'}`} />
+                        <EmotionIcon className={`w-5 h-5 ${iconColor} relative z-10 drop-shadow-sm`} />
+                      </div>
+                    )
+                  })()}
                   <div className="flex-1">
-                    <p className="font-medium text-primary">{mood.emotion}</p>
+                    <p className="font-semibold text-primary group-hover:text-accent transition-colors">{mood.emotion}</p>
                     <p className="text-sm text-secondary">
                       {format(new Date(mood.timestamp), 'MMM d, h:mm a')}
                     </p>
                   </div>
-                  <div className="text-sm text-secondary">
-                    {mood.intensity}/10
+                  <div className="text-right">
+                    <div className="px-3 py-1 rounded-full bg-accent/10 text-accent font-semibold text-sm">
+                      {mood.intensity}/10
+                    </div>
                   </div>
                 </div>
               ))

@@ -1,6 +1,6 @@
 # 🫧 Bubble - Your Safe Space to Feel, Reflect, and Grow
 
-![Bubble Logo](public/bubble-icon.svg)
+
 
 ## 🌟 Overview
 

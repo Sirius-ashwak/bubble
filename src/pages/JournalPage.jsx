@@ -88,11 +88,11 @@ const JournalPage = () => {
       className="max-w-4xl mx-auto"
     >
       {/* Header */}
-      <div className="bubble-card bubble-shadow mb-6">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+      <div className="card mb-6">
+        <h1 className="text-3xl font-bold text-foreground mb-2">
           Your Thought Stream
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-muted-foreground">
           Let your thoughts flow like bubbles in a gentle stream
         </p>
       </div>
@@ -111,12 +111,12 @@ const JournalPage = () => {
               whileTap={{ scale: 0.95 }}
               className={`p-3 rounded-2xl transition-all duration-300 ${
                 isActive 
-                  ? `bg-gradient-to-r from-bubble-${type.color} to-bubble-purple/30 shadow-lg` 
-                  : 'bg-white dark:bg-dark-card hover:shadow-md'
+                  ? `bg-gradient-to-r from-accent/10 to-accent/20 shadow-lg` 
+                  : 'card-hover'
               }`}
             >
-              <Icon className={`w-5 h-5 mx-auto mb-1 ${isActive ? 'text-purple-600 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`} />
-              <span className={`text-sm font-medium ${isActive ? 'text-purple-700 dark:text-purple-300' : 'text-gray-600 dark:text-gray-400'}`}>
+              <Icon className={`w-5 h-5 mx-auto mb-1 ${isActive ? 'text-accent' : 'text-muted-foreground'}`} />
+              <span className={`text-sm font-medium ${isActive ? 'text-accent' : 'text-muted-foreground'}`}>
                 {type.label}
               </span>
             </motion.button>
@@ -132,23 +132,23 @@ const JournalPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="bubble-card bubble-shadow mb-6 bg-gradient-to-r from-bubble-purple/10 to-bubble-blue/10"
+            className="card mb-6 bg-accent/10"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <p className="text-sm text-purple-600 dark:text-purple-400 font-medium mb-1">
+                <p className="text-sm text-accent font-medium mb-1">
                   ✨ Today's Prompt
                 </p>
-                <p className="text-lg text-gray-800 dark:text-gray-200">
+                <p className="text-lg text-foreground">
                   {currentPrompt}
                 </p>
               </div>
               <button
                 onClick={() => loadPrompt(promptType)}
                 disabled={loading}
-                className="ml-4 p-2 rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/20 transition-colors"
+                className="ml-4 p-2 rounded-full hover:bg-accent/10 transition-colors"
               >
-                <RefreshCw className={`w-4 h-4 text-purple-600 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-4 h-4 text-accent ${loading ? 'animate-spin' : ''}`} />
               </button>
             </div>
           </motion.div>
@@ -156,26 +156,26 @@ const JournalPage = () => {
       </AnimatePresence>
 
       {/* Journal Entry */}
-      <div className="bubble-card bubble-shadow">
+      <div className="card">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Give your entry a title (optional)"
-          className="w-full text-xl font-semibold mb-4 p-2 bg-transparent border-b-2 border-bubble-purple/20 focus:border-purple-400 focus:outline-none transition-colors"
+          className="w-full text-xl font-semibold mb-4 p-2 bg-transparent border-b-2 border-accent/20 focus:border-accent focus:outline-none transition-colors"
         />
         
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Start writing... Let your thoughts flow freely. This is your safe space."
-          className="w-full h-96 p-4 rounded-2xl border-2 border-bubble-purple/20 focus:border-purple-400 focus:outline-none resize-none bg-white dark:bg-dark-bg text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 transition-colors font-serif text-lg leading-relaxed"
+          className="w-full h-96 p-4 rounded-2xl border-2 border-accent/20 focus:border-accent focus:outline-none resize-none bg-background text-foreground placeholder-muted-foreground transition-colors font-serif text-lg leading-relaxed"
           style={{ minHeight: '400px' }}
         />
         
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center space-x-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="text-sm text-muted-foreground">
               {wordCount} words • {Math.ceil(wordCount / 200)} min read
             </div>
             
@@ -183,7 +183,7 @@ const JournalPage = () => {
               <button
                 onClick={getAICompanion}
                 disabled={gettingCompanion}
-                className="px-3 py-1 text-sm bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full hover:shadow-lg transition-all duration-300 flex items-center space-x-1"
+                className="px-3 py-1 text-sm bg-accent text-accent-foreground rounded-full hover:shadow-lg transition-all duration-300 flex items-center space-x-1"
               >
                 <MessageCircle size={14} />
                 <span>{gettingCompanion ? 'Listening...' : 'Get Companion'}</span>
@@ -194,7 +194,7 @@ const JournalPage = () => {
           <button
             onClick={handleSave}
             disabled={!content.trim() || loading}
-            className="bubble-btn bg-gradient-to-r from-blue-500 to-purple-500 text-white disabled:opacity-50"
+            className="btn-primary disabled:opacity-50"
           >
             <Save className="inline-block mr-2" size={18} />
             {loading ? 'Flowing to sanctuary...' : 'Save Stream'}
@@ -209,48 +209,48 @@ const JournalPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="mt-6 bubble-card bubble-shadow bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20"
+            className="mt-6 card bg-accent/10"
           >
             <div className="flex items-center space-x-2 mb-4">
-              <Heart className="w-5 h-5 text-pink-500" />
-              <h3 className="text-lg font-semibold text-purple-600 dark:text-purple-400">Your Companion's Response</h3>
+              <Heart className="w-5 h-5 text-accent" />
+              <h3 className="text-lg font-semibold text-accent">Your Companion's Response</h3>
             </div>
             
             <div className="space-y-4">
               {/* Acknowledgment */}
-              <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl">
+              <div className="p-3 bg-muted/50 rounded-xl">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Heart size={16} className="text-pink-500" />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Understanding</span>
+                  <Heart size={16} className="text-accent" />
+                  <span className="text-sm font-medium text-muted-foreground">Understanding</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300">{aiCompanion.acknowledgment}</p>
+                <p className="text-foreground">{aiCompanion.acknowledgment}</p>
               </div>
               
               {/* CBT Reframe */}
-              <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl">
+              <div className="p-3 bg-muted/50 rounded-xl">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Lightbulb size={16} className="text-blue-500" />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Gentle Perspective</span>
+                  <Lightbulb size={16} className="text-accent" />
+                  <span className="text-sm font-medium text-muted-foreground">Gentle Perspective</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300">{aiCompanion.cbtReframe}</p>
+                <p className="text-foreground">{aiCompanion.cbtReframe}</p>
               </div>
               
               {/* Follow-up Prompt */}
-              <div className="p-3 bg-white/50 dark:bg-gray-800/50 rounded-xl">
+              <div className="p-3 bg-muted/50 rounded-xl">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Sparkles size={16} className="text-purple-500" />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Reflection Question</span>
+                  <Sparkles size={16} className="text-accent" />
+                  <span className="text-sm font-medium text-muted-foreground">Reflection Question</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 italic">{aiCompanion.followUpPrompt}</p>
+                <p className="text-foreground italic">{aiCompanion.followUpPrompt}</p>
               </div>
               
               {/* Encouragement */}
-              <div className="p-3 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 rounded-xl">
+              <div className="p-3 bg-accent/10 rounded-xl">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Sun size={16} className="text-yellow-500" />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Encouragement</span>
+                  <Sun size={16} className="text-accent" />
+                  <span className="text-sm font-medium text-muted-foreground">Encouragement</span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 font-medium">{aiCompanion.encouragement}</p>
+                <p className="text-foreground font-medium">{aiCompanion.encouragement}</p>
               </div>
             </div>
           </motion.div>
@@ -264,10 +264,10 @@ const JournalPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="mt-6 bubble-card bubble-shadow bg-gradient-to-r from-bubble-mint/20 to-bubble-blue/20"
+            className="mt-6 card bg-accent/10"
           >
-            <h3 className="text-lg font-semibold mb-2 text-purple-600">💜 AI Reflection</h3>
-            <ReactMarkdown className="text-gray-700 dark:text-gray-300">
+            <h3 className="text-lg font-semibold mb-2 text-accent">💜 AI Reflection</h3>
+            <ReactMarkdown className="text-foreground">
               {reflection}
             </ReactMarkdown>
           </motion.div>
@@ -284,16 +284,16 @@ const JournalPage = () => {
                 key={journal.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bubble-card hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="card-hover"
                 whileHover={{ x: 5 }}
               >
-                <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-1">
+                <h3 className="font-semibold text-foreground mb-1">
                   {journal.title}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
                   {journal.content}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   {new Date(journal.timestamp).toLocaleDateString('en-US', { 
                     month: 'short', 
                     day: 'numeric',

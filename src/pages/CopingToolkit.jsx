@@ -271,11 +271,11 @@ const CopingToolkit = () => {
       className="max-w-5xl mx-auto"
     >
       {/* Header */}
-      <div className="bubble-card bubble-shadow mb-6">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent mb-2">
+      <div className="card mb-6">
+        <h1 className="text-3xl font-bold text-foreground mb-2">
           Calm Currents Toolkit
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-muted-foreground">
           Ride the waves of tranquility with personalized bubble relief activities
         </p>
       </div>
@@ -285,19 +285,19 @@ const CopingToolkit = () => {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bubble-card bubble-shadow mb-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20"
+          className="card mb-6 bg-accent/10"
         >
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold flex items-center">
-              <Sparkles className="w-5 h-5 mr-2 text-blue-600" />
+              <Sparkles className="w-5 h-5 mr-2 text-accent" />
               Personalized Bubble Relief Activities
             </h3>
             <button
               onClick={refreshAICopingBubbles}
               disabled={loadingAI}
-              className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
+              className="p-2 rounded-full hover:bg-accent/10 transition-colors"
             >
-              <RefreshCw className={`w-4 h-4 text-blue-600 ${loadingAI ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-4 h-4 text-accent ${loadingAI ? 'animate-spin' : ''}`} />
             </button>
           </div>
           
@@ -306,28 +306,28 @@ const CopingToolkit = () => {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.02 }}
-                className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-blue-200/50 hover:shadow-md transition-all"
+                className="p-4 card-hover border border-accent/20"
               >
                 <div className="flex items-center space-x-2 mb-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full flex items-center justify-center">
-                    <span className="text-white text-sm font-medium">{activity.duration.split(' ')[0]}</span>
+                  <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
+                    <span className="text-accent-foreground text-sm font-medium">{activity.duration.split(' ')[0]}</span>
                   </div>
-                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">{activity.name}</h4>
+                  <h4 className="font-semibold text-foreground">{activity.name}</h4>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{activity.description}</p>
+                <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full">
+                  <span className="text-xs px-2 py-1 bg-accent/20 text-accent rounded-full">
                     {activity.type}
                   </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{activity.duration}</span>
+                  <span className="text-xs text-muted-foreground">{activity.duration}</span>
                 </div>
               </motion.div>
             ))}
           </div>
           
           {aiCopingBubbles.encouragingNote && (
-            <div className="mt-4 p-3 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 rounded-xl">
-              <p className="text-sm text-gray-700 dark:text-gray-300 italic">
+            <div className="mt-4 p-3 bg-accent/10 rounded-xl">
+              <p className="text-sm text-foreground italic">
                 💜 {aiCopingBubbles.encouragingNote}
               </p>
             </div>
@@ -340,10 +340,10 @@ const CopingToolkit = () => {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bubble-card bubble-shadow mb-6 bg-gradient-to-r from-bubble-yellow/20 to-bubble-coral/20"
+          className="card mb-6 bg-accent/10"
         >
           <h3 className="text-lg font-semibold mb-3 flex items-center">
-            <Star className="w-5 h-5 mr-2 text-yellow-600" />
+            <Star className="w-5 h-5 mr-2 text-accent" />
             Quick Relief Bubbles
           </h3>
           <div className="grid md:grid-cols-3 gap-3">
@@ -352,7 +352,7 @@ const CopingToolkit = () => {
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-3 bg-white dark:bg-gray-800 rounded-2xl cursor-pointer hover:shadow-md transition-all"
+                className="p-3 card-hover rounded-2xl cursor-pointer"
               >
                 <p className="text-sm font-medium">{suggestion}</p>
               </motion.div>
@@ -375,12 +375,12 @@ const CopingToolkit = () => {
               whileTap={{ scale: 0.95 }}
               className={`px-4 py-2 rounded-full flex items-center space-x-2 transition-all duration-300 ${
                 isActive
-                  ? `bg-gradient-to-r from-bubble-${cat.color} to-bubble-purple/30 shadow-lg`
-                  : 'bg-white dark:bg-gray-800 hover:shadow-md'
+                  ? `bg-gradient-to-r from-accent/10 to-accent/20 shadow-lg`
+                  : 'card-hover'
               }`}
             >
-              <Icon size={18} className={isActive ? 'text-purple-600' : 'text-gray-500 dark:text-gray-400'} />
-              <span className={`font-medium ${isActive ? 'text-purple-700' : 'text-gray-600 dark:text-gray-400'}`}>
+              <Icon size={18} className={isActive ? 'text-accent' : 'text-muted-foreground'} />
+              <span className={`font-medium ${isActive ? 'text-accent' : 'text-muted-foreground'}`}>
                 {cat.label}
               </span>
             </motion.button>
@@ -408,8 +408,8 @@ const CopingToolkit = () => {
                 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ delay: index * 0.1 }}
-                className={`bubble-card bubble-shadow hover:shadow-xl transition-all duration-300 ${
-                  isCompleted ? 'bg-gradient-to-r from-green-100 to-green-200 dark:from-green-900/20 dark:to-green-800/20' : ''
+                className={`card hover:shadow-xl transition-all duration-300 ${
+                  isCompleted ? 'bg-accent/10' : ''
                 }`}
               >
                 <div
@@ -418,19 +418,19 @@ const CopingToolkit = () => {
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center space-x-3">
-                      <div className={`p-3 rounded-full bg-bubble-${activity.color}/20`}>
-                        <Icon className={`w-6 h-6 text-${activity.color}-600`} />
+                      <div className="p-3 rounded-full bg-accent/20">
+                        <Icon className="w-6 h-6 text-accent" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+                        <h3 className="font-semibold text-foreground">
                           {activity.title}
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-sm text-muted-foreground">
                           {activity.description}
                         </p>
                       </div>
                     </div>
-                    <span className="text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 py-1 rounded-full">
+                    <span className="text-xs bg-accent/20 text-accent px-2 py-1 rounded-full">
                       {activity.duration}
                     </span>
                   </div>
@@ -445,15 +445,15 @@ const CopingToolkit = () => {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="pt-3 border-t border-bubble-purple/20">
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <div className="pt-3 border-t border-accent/20">
+                        <p className="text-sm font-medium text-foreground mb-2">
                           Steps:
                         </p>
                         <ol className="space-y-2 mb-4">
                           {activity.steps.map((step, idx) => (
                             <li key={idx} className="flex items-start">
-                              <span className="text-purple-600 font-medium mr-2">{idx + 1}.</span>
-                              <span className="text-sm text-gray-600 dark:text-gray-400">{step}</span>
+                              <span className="text-accent font-medium mr-2">{idx + 1}.</span>
+                              <span className="text-sm text-muted-foreground">{step}</span>
                             </li>
                           ))}
                         </ol>
@@ -463,7 +463,7 @@ const CopingToolkit = () => {
                             e.stopPropagation()
                             handleActivityComplete(activity)
                           }}
-                          className="w-full bubble-btn bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm"
+                          className="w-full btn-primary text-sm"
                         >
                           {isCompleted ? '✓ Completed!' : 'Mark as Complete'}
                         </button>
@@ -478,7 +478,7 @@ const CopingToolkit = () => {
       </div>
 
       {/* Quick Relief Bubbles */}
-      <div className="mt-8 bubble-card bubble-shadow">
+      <div className="mt-8 card">
         <h2 className="text-xl font-semibold mb-4">Quick Relief Bubbles</h2>
         <div className="flex flex-wrap gap-3">
           {[
@@ -495,7 +495,7 @@ const CopingToolkit = () => {
               key={index}
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
-              className="px-4 py-2 rounded-full bg-gradient-to-r from-bubble-purple/10 to-bubble-blue/10 hover:from-bubble-purple/20 hover:to-bubble-blue/20 transition-all"
+              className="px-4 py-2 rounded-full bg-accent/10 hover:bg-accent/15 transition-all"
             >
               <span className="text-2xl mr-2">{bubble.emoji}</span>
               <span className="text-sm font-medium">{bubble.text}</span>
