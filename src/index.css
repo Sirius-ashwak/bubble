@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 15 15 15;
+    --muted: 245 245 245;
+    --muted-foreground: 115 115 115;
+    --border: 229 229 229;
+    --primary: 99 102 241;
+    --primary-foreground: 255 255 255;
+    --secondary: 245 245 245;
+    --secondary-foreground: 15 15 15;
+    --accent: 99 102 241;
+    --accent-foreground: 255 255 255;
+    --success: 34 197 94;
+    --warning: 251 191 36;
+    --error: 239 68 68;
+  }
+  
+  .dark {
+    --background: 15 15 15;
+    --foreground: 245 245 245;
+    --muted: 30 30 30;
+    --muted-foreground: 150 150 150;
+    --border: 45 45 45;
+    --primary: 129 140 248;
+    --primary-foreground: 15 15 15;
+    --secondary: 30 30 30;
+    --secondary-foreground: 245 245 245;
+    --accent: 129 140 248;
+    --accent-foreground: 15 15 15;
+    --success: 74 222 128;
+    --warning: 251 191 36;
+    --error: 248 113 113;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}
+
+/* Simple dark theme utility classes */
+@layer components {
+  .dark-bg {
+    @apply bg-white dark:bg-gray-950;
+  }
+  
+  .dark-card {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+  
+  .dark-border {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+  
+  .dark-text {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+  
+  .dark-text-muted {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+  
+  /* Clean, Professional Components */
+  .btn {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn px-6 py-3 rounded-xl;
+    background: rgb(var(--primary));
+    color: rgb(var(--primary-foreground));
+  }
+  
+  .btn-primary:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+  
+  .btn-secondary {
+    @apply btn px-6 py-3 rounded-xl;
+    background: rgb(var(--secondary));
+    color: rgb(var(--secondary-foreground));
+  }
+  
+  .btn-ghost {
+    @apply btn px-4 py-2 rounded-lg;
+    background: transparent;
+    color: rgb(var(--foreground));
+  }
+  
+  .btn-ghost:hover:not(:disabled) {
+    background: rgb(var(--muted));
+  }
+  
+  /* Clean Cards */
+  .card {
+    @apply rounded-2xl p-6 transition-all duration-200;
+    background: rgb(var(--background));
+    border: 1px solid rgb(var(--border));
+  }
+  
+  .card-hover {
+    @apply card cursor-pointer;
+  }
+  
+  .card-hover:hover {
+    border-color: rgb(var(--muted-foreground) / 0.3);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+  }
+  
+  .card-muted {
+    @apply rounded-2xl p-6;
+    background: rgb(var(--muted));
+  }
+  
+  /* Input Fields */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl transition-all duration-200;
+    background: rgb(var(--background));
+    border: 1px solid rgb(var(--border));
+    color: rgb(var(--foreground));
+  }
+  
+  .input:focus {
+    @apply outline-none;
+    border-color: rgb(var(--accent));
+    box-shadow: 0 0 0 3px rgb(var(--accent) / 0.1);
+  }
+  
+  .textarea {
+    @apply input resize-none;
+    min-height: 120px;
+  }
+  
+  /* Typography */
+  .text-primary {
+    color: rgb(var(--foreground));
+  }
+  
+  .text-secondary {
+    color: rgb(var(--muted-foreground));
+  }
+  
+  .text-accent {
+    color: rgb(var(--accent));
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge;
+    background: rgb(var(--primary));
+    color: rgb(var(--primary-foreground));
+  }
+  
+  .badge-secondary {
+    @apply badge;
+    background: rgb(var(--muted));
+    color: rgb(var(--foreground));
+  }
+  
+  .badge-accent {
+    @apply badge;
+    background: rgb(var(--accent) / 0.1);
+    color: rgb(var(--accent));
+  }
+  
+  /* Emotion Cards */
+  .emotion-card {
+    @apply flex flex-col items-center justify-center p-4 rounded-2xl transition-all duration-200 cursor-pointer;
+    background: rgb(var(--muted));
+    border: 2px solid transparent;
+  }
+  
+  .emotion-card:hover {
+    border-color: rgb(var(--accent));
+    transform: translateY(-2px);
+  }
+  
+  .emotion-card.selected {
+    background: rgb(var(--accent) / 0.1);
+    border-color: rgb(var(--accent));
+  }
+  
+  /* Progress Indicators */
+  .progress-ring {
+    transform: rotate(-90deg);
+  }
+  
+  .progress-ring-circle {
+    stroke: rgb(var(--border));
+    fill: none;
+  }
+  
+  .progress-ring-path {
+    stroke: rgb(var(--accent));
+    fill: none;
+    stroke-linecap: round;
+  }
+}
+
+/* Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted-foreground) / 0.3);
+}
+
+/* Subtle Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Utility Classes */
+.container {
+  @apply mx-auto px-4;
+  max-width: 1200px;
+}
+
+.section {
+  @apply py-8 md:py-12;
+}
+
+/* Focus States */
+button:focus-visible,
+a:focus-visible {
+  @apply outline-none ring-2 ring-offset-2;
+  ring-color: rgb(var(--accent));
+  ring-offset-color: rgb(var(--background));
+}
+
+/* Transitions */
+.transition-colors {
+  transition-property: color, background-color, border-color;
+  transition-duration: 200ms;
+}
+
+.transition-transform {
+  transition-property: transform;
+  transition-duration: 200ms;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-duration: 200ms;
+}
