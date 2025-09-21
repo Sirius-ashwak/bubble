@@ -140,38 +140,72 @@ const MoodCheckIn = () => {
                 How are you feeling right now?
               </h3>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {getAllEmotions().map((emotion) => (
-                  <motion.button
-                    key={emotion.name}
-                    onClick={() => handleEmotionSelect(emotion)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`group relative p-6 rounded-2xl transition-all duration-300 text-center ${
-                      selectedEmotion?.name === emotion.name
-                        ? 'ring-2 ring-accent bg-accent/10 shadow-lg'
-                        : 'bg-muted/50 hover:bg-muted/70 hover:shadow-md'
-                    }`}
-                  >
-                    {(() => {
-                      const IconComponent = emotion.icon
-                      return (
-                        <div className="flex flex-col items-center space-y-3">
-                          <div className={`p-3 rounded-xl bg-gradient-to-br ${emotion.gradient} shadow-sm group-hover:shadow-md transition-shadow`}>
-                            <IconComponent className="w-6 h-6 text-white" />
-                          </div>
-                          <span className={`font-medium text-sm transition-colors ${
-                            selectedEmotion?.name === emotion.name 
-                              ? 'text-accent font-semibold' 
-                              : 'text-primary group-hover:text-accent'
-                          }`}>
-                            {emotion.name}
-                          </span>
-                        </div>
-                      )
-                    })()}
-                  </motion.button>
-                ))}
+              {/* Elegant Text-Focused Mood Bubbles */}
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-2 sm:px-4 max-w-5xl mx-auto">
+                {getAllEmotions().map((emotion, index) => {
+                  const IconComponent = emotion.icon
+                  // Create varied bubble sizes for organic, flowing feel - responsive
+                  const sizeClasses = [
+                    'w-20 h-20 sm:w-28 sm:h-28 text-sm sm:text-base',    // standard
+                    'w-24 h-24 sm:w-32 sm:h-32 text-base sm:text-lg',     // large  
+                    'w-16 h-16 sm:w-24 sm:h-24 text-xs sm:text-sm',       // small
+                    'w-28 h-28 sm:w-36 sm:h-36 text-lg sm:text-xl',       // extra large
+                    'w-20 h-20 sm:w-32 sm:h-32 text-sm sm:text-base'      // medium
+                  ]
+                  const sizeClass = sizeClasses[index % sizeClasses.length]
+                  
+                  return (
+                    <motion.button
+                      key={emotion.name}
+                      onClick={() => handleEmotionSelect(emotion)}
+                      whileHover={{ scale: 1.08, y: -4 }}
+                      whileTap={{ scale: 0.92 }}
+                      className={`group relative ${sizeClass} rounded-full transition-all duration-500 flex items-center justify-center overflow-hidden shadow-lg ${
+                        selectedEmotion?.name === emotion.name
+                          ? 'ring-4 ring-white/60 shadow-2xl scale-105'
+                          : 'hover:shadow-2xl hover:scale-105'
+                      }`}
+                      style={{
+                        background: `linear-gradient(135deg, ${emotion.color}f0, ${emotion.color}dd, ${emotion.color})`
+                      }}
+                    >
+                      {/* Elegant gradient overlays for depth and better text contrast */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/15" />
+                      
+                      {/* Subtle decorative icon - barely visible */}
+                      <div className="absolute top-3 right-3 opacity-20 group-hover:opacity-30 transition-opacity">
+                        <IconComponent className="w-4 h-4 text-white" aria-hidden="true" />
+                      </div>
+                      
+                      {/* Primary emotion name - elegant typography */}
+                      <div className="relative z-10 text-center px-2 sm:px-3">
+                        <span className={`font-bold text-white leading-tight tracking-wide drop-shadow-lg transition-all duration-300 ${
+                          selectedEmotion?.name === emotion.name 
+                            ? 'drop-shadow-lg scale-105' 
+                            : 'group-hover:scale-105 group-hover:drop-shadow-md'
+                        }`}>
+                          {emotion.name}
+                        </span>
+                      </div>
+                      
+                      {/* Beautiful selection indicator */}
+                      {selectedEmotion?.name === emotion.name && (
+                        <motion.div 
+                          initial={{ scale: 0, rotate: -180 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-xl flex items-center justify-center backdrop-blur-sm"
+                        >
+                          <div className="w-4 h-4 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full shadow-inner" />
+                        </motion.div>
+                      )}
+                      
+                      {/* Subtle glow effect on hover */}
+                      <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-500" />
+                    </motion.button>
+                  )
+                })}
               </div>
             </div>
 
@@ -290,24 +324,28 @@ const MoodCheckIn = () => {
         </motion.div>
       )}
 
-      {/* Selected Emotion Display */}
+      {/* Elegant Selected Emotion Display */}
       {selectedEmotion && (
         <motion.div
           initial={{ opacity: 0, scale: 0, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="fixed bottom-8 right-8 p-6 bg-background border border-border rounded-3xl shadow-2xl backdrop-blur-sm"
+          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-4 sm:p-6 bg-background/95 border border-border rounded-3xl shadow-2xl backdrop-blur-md max-w-xs sm:max-w-none"
         >
           <div className="flex items-center space-x-4">
-            {(() => {
-              const SelectedIcon = selectedEmotion.icon
-              return (
-                <div className={`p-3 rounded-2xl bg-gradient-to-br ${selectedEmotion.gradient} shadow-lg`}>
-                  <SelectedIcon className="w-6 h-6 text-white" />
-                </div>
-              )
-            })()}
+            {/* Elegant circular emotion bubble preview */}
+            <div 
+              className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg relative overflow-hidden"
+              style={{
+                background: `linear-gradient(135deg, ${selectedEmotion.color}f0, ${selectedEmotion.color}dd, ${selectedEmotion.color})`
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/25 to-transparent" />
+              <span className="text-white font-bold text-sm relative z-10">
+                {selectedEmotion.name}
+              </span>
+            </div>
             <div>
-              <p className="font-bold text-lg text-foreground">{selectedEmotion.name}</p>
+              <p className="font-bold text-xl text-foreground">{selectedEmotion.name}</p>
               <p className="text-sm text-accent font-medium">Intensity: {intensity}/10</p>
             </div>
           </div>
