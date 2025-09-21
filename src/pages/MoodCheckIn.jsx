@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, MessageCircle, Palette, Sparkles, Heart } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { emotionCategories, getEmotionColor, getEmotionIcon, getEmotionGradient } from '../utils/emotionData'
+import { emotionCategories, getAllEmotions } from '../utils/emotionData'
 import { analyzeMoodBubble } from '../utils/aiService'
 import { useNavigate } from 'react-router-dom'
 
@@ -134,50 +134,46 @@ const MoodCheckIn = () => {
             exit={{ opacity: 0, scale: 0.9 }}
             className="space-y-6"
           >
-            {/* Emotion Categories */}
-            {Object.entries(emotionCategories).map(([category, energyLevels]) => (
-              <div key={category} className="card">
-                <h3 className="text-lg font-semibold mb-4 capitalize">
-                  {category === 'pleasant' ? '✨ Pleasant Feelings' : '🌧️ Difficult Feelings'}
-                </h3>
-                
-                {Object.entries(energyLevels).map(([energy, emotions]) => (
-                  <div key={energy} className="mb-4">
-                    <p className="text-sm text-muted-foreground mb-2 capitalize">
-                      {energy.replace(/([A-Z])/g, ' $1').trim()} Energy
-                    </p>
-                    <div className="flex flex-wrap gap-3">
-                      {emotions.map((emotion) => (
-                        <motion.button
-                          key={emotion.name}
-                          onClick={() => handleEmotionSelect(emotion)}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          whileTap={{ scale: 0.95 }}
-                          className={`group relative overflow-hidden rounded-2xl px-6 py-4 transition-all duration-300 shadow-lg hover:shadow-xl ${
-                            selectedEmotion?.name === emotion.name
-                              ? 'ring-3 ring-accent ring-offset-2 shadow-2xl'
-                              : 'hover:shadow-xl'
-                          }`}
-                        >
-                          <div className={`absolute inset-0 bg-gradient-to-br ${emotion.gradient} opacity-20 group-hover:opacity-30 transition-opacity`}></div>
-                          <div className="relative flex items-center space-x-3">
-                            {(() => {
-                              const IconComponent = emotion.icon
-                              return (
-                                <div className={`p-2 rounded-xl bg-gradient-to-br ${emotion.gradient} shadow-sm`}>
-                                  <IconComponent className="w-5 h-5 text-white" />
-                                </div>
-                              )
-                            })()}
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{emotion.name}</span>
+            {/* Simple Emotion Grid */}
+            <div className="card">
+              <h3 className="text-xl font-bold text-center text-primary mb-6">
+                How are you feeling right now?
+              </h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {getAllEmotions().map((emotion) => (
+                  <motion.button
+                    key={emotion.name}
+                    onClick={() => handleEmotionSelect(emotion)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`group relative p-6 rounded-2xl transition-all duration-300 text-center ${
+                      selectedEmotion?.name === emotion.name
+                        ? 'ring-2 ring-accent bg-accent/10 shadow-lg'
+                        : 'bg-muted/50 hover:bg-muted/70 hover:shadow-md'
+                    }`}
+                  >
+                    {(() => {
+                      const IconComponent = emotion.icon
+                      return (
+                        <div className="flex flex-col items-center space-y-3">
+                          <div className={`p-3 rounded-xl bg-gradient-to-br ${emotion.gradient} shadow-sm group-hover:shadow-md transition-shadow`}>
+                            <IconComponent className="w-6 h-6 text-white" />
                           </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
+                          <span className={`font-medium text-sm transition-colors ${
+                            selectedEmotion?.name === emotion.name 
+                              ? 'text-accent font-semibold' 
+                              : 'text-primary group-hover:text-accent'
+                          }`}>
+                            {emotion.name}
+                          </span>
+                        </div>
+                      )
+                    })()}
+                  </motion.button>
                 ))}
               </div>
-            ))}
+            </div>
 
             {/* Intensity Slider */}
             {selectedEmotion && (

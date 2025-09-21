@@ -26,16 +26,16 @@
   .dark {
     /* Monochrome dark theme - Material Design inspired */
     --background: 18 18 18;        /* #121212 - Material Design dark */
-    --foreground: 224 224 224;     /* #E0E0E0 - Off-white for reduced eye strain */
+    --foreground: 255 255 255;     /* #FFFFFF - High contrast white text */
     --muted: 30 30 30;             /* #1E1E1E - Cards/surfaces */
-    --muted-foreground: 176 176 176; /* #B0B0B0 - Secondary text */
+    --muted-foreground: 200 200 200; /* #C8C8C8 - Better contrast secondary text */
     --border: 51 51 51;            /* #333333 - Subtle borders */
     --primary: 224 224 224;        /* #E0E0E0 - Primary using main text color */
     --primary-foreground: 18 18 18; /* #121212 - Primary text on light */
     --secondary: 42 42 42;         /* #2A2A2A - Muted surfaces */
     --secondary-foreground: 224 224 224; /* #E0E0E0 - Secondary text */
-    --accent: 180 180 180;         /* #B4B4B4 - Subtle accent */
-    --accent-foreground: 18 18 18; /* #121212 - Accent text */
+    --accent: 99 102 241;          /* #6366F1 - More vibrant accent color */
+    --accent-foreground: 255 255 255; /* #FFFFFF - White text on accent */
     --success: 74 222 128;
     --warning: 251 191 36;
     --error: 248 113 113;
