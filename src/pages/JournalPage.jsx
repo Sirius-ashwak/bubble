@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Save, RefreshCw, Sparkles, Heart, Brain, Sun, MessageCircle, Lightbulb } from 'lucide-react'
+import { Save, RefreshCw, Sparkles, Heart, Brain, Sun } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { generateJournalCompanion } from '../utils/aiService'
 import ReactMarkdown from 'react-markdown'
 
 const JournalPage = () => {
@@ -13,9 +12,6 @@ const JournalPage = () => {
   const [promptType, setPromptType] = useState('general')
   const [showReflection, setShowReflection] = useState(false)
   const [reflection, setReflection] = useState('')
-  const [aiCompanion, setAiCompanion] = useState(null)
-  const [showCompanion, setShowCompanion] = useState(false)
-  const [gettingCompanion, setGettingCompanion] = useState(false)
 
   const promptTypes = [
     { id: 'general', label: 'General', icon: Sparkles, color: 'purple' },
@@ -34,23 +30,6 @@ const JournalPage = () => {
     setCurrentPrompt(prompt)
   }
 
-  const getAICompanion = async () => {
-    if (!content.trim()) return
-    
-    setGettingCompanion(true)
-    try {
-      // Get user's recent mood for context
-      const recentMood = moods.length > 0 ? moods[0] : null
-      const companion = await generateJournalCompanion(content, recentMood)
-      setAiCompanion(companion)
-      setShowCompanion(true)
-    } catch (error) {
-      console.error('Error getting AI companion:', error)
-    } finally {
-      setGettingCompanion(false)
-    }
-  }
-
   const handleSave = async () => {
     if (!content.trim()) return
     
@@ -58,8 +37,7 @@ const JournalPage = () => {
       title: title || 'Untitled Entry',
       content,
       promptUsed: currentPrompt,
-      type: promptType,
-      aiCompanion // Save AI companion responses
+      type: promptType
     })
     
     if (journal.aiReflection) {
@@ -72,8 +50,6 @@ const JournalPage = () => {
       setTitle('')
       setContent('')
       setShowReflection(false)
-      setShowCompanion(false)
-      setAiCompanion(null)
       loadPrompt('general')
     }, 3000)
   }
@@ -178,17 +154,6 @@ const JournalPage = () => {
             <div className="text-sm text-muted-foreground">
               {wordCount} words • {Math.ceil(wordCount / 200)} min read
             </div>
-            
-            {content.length > 50 && (
-              <button
-                onClick={getAICompanion}
-                disabled={gettingCompanion}
-                className="px-3 py-1 text-sm bg-accent text-accent-foreground rounded-full hover:shadow-lg transition-all duration-300 flex items-center space-x-1"
-              >
-                <MessageCircle size={14} />
-                <span>{gettingCompanion ? 'Listening...' : 'Get Companion'}</span>
-              </button>
-            )}
           </div>
           
           <button
@@ -201,61 +166,6 @@ const JournalPage = () => {
           </button>
         </div>
       </div>
-
-      {/* AI Companion */}
-      <AnimatePresence>
-        {showCompanion && aiCompanion && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="mt-6 card bg-accent/10"
-          >
-            <div className="flex items-center space-x-2 mb-4">
-              <Heart className="w-5 h-5 text-accent" />
-              <h3 className="text-lg font-semibold text-accent">Your Companion's Response</h3>
-            </div>
-            
-            <div className="space-y-4">
-              {/* Acknowledgment */}
-              <div className="p-3 bg-muted/50 rounded-xl">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Heart size={16} className="text-accent" />
-                  <span className="text-sm font-medium text-muted-foreground">Understanding</span>
-                </div>
-                <p className="text-foreground">{aiCompanion.acknowledgment}</p>
-              </div>
-              
-              {/* CBT Reframe */}
-              <div className="p-3 bg-muted/50 rounded-xl">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Lightbulb size={16} className="text-accent" />
-                  <span className="text-sm font-medium text-muted-foreground">Gentle Perspective</span>
-                </div>
-                <p className="text-foreground">{aiCompanion.cbtReframe}</p>
-              </div>
-              
-              {/* Follow-up Prompt */}
-              <div className="p-3 bg-muted/50 rounded-xl">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Sparkles size={16} className="text-accent" />
-                  <span className="text-sm font-medium text-muted-foreground">Reflection Question</span>
-                </div>
-                <p className="text-foreground italic">{aiCompanion.followUpPrompt}</p>
-              </div>
-              
-              {/* Encouragement */}
-              <div className="p-3 bg-accent/10 rounded-xl">
-                <div className="flex items-center space-x-2 mb-2">
-                  <Sun size={16} className="text-accent" />
-                  <span className="text-sm font-medium text-muted-foreground">Encouragement</span>
-                </div>
-                <p className="text-foreground font-medium">{aiCompanion.encouragement}</p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* AI Reflection */}
       <AnimatePresence>

@@ -102,7 +102,7 @@ const Dashboard = () => {
         <h1 className="text-3xl font-semibold text-primary mb-2">
           Welcome to your sanctuary
         </h1>
-        <p className="text-secondary">
+        <p className="text-foreground/80">
           How are your bubbles floating today?
         </p>
       </div>
@@ -131,41 +131,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Feature Showcase */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-primary mb-4">Your Wellness Sanctuary</h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="card bg-accent/10 border border-accent/20">
-            <div className="flex items-center space-x-3 mb-3">
-              <Heart className="w-6 h-6 text-accent" />
-              <h3 className="font-semibold text-primary">Feeling Bubbles</h3>
-            </div>
-            <p className="text-sm text-secondary">
-              Pop open your emotions and watch patterns float to the surface of your awareness.
-            </p>
-          </div>
-          
-          <div className="card bg-accent/10 border border-accent/20">
-            <div className="flex items-center space-x-3 mb-3">
-              <BookOpen className="w-6 h-6 text-accent" />
-              <h3 className="font-semibold text-primary">Thought Streams</h3>
-            </div>
-            <p className="text-sm text-secondary">
-              Let your thoughts flow like bubbles in a gentle stream with AI-guided prompts.
-            </p>
-          </div>
-          
-          <div className="card bg-accent/10 border border-accent/20">
-            <div className="flex items-center space-x-3 mb-3">
-              <Sparkles className="w-6 h-6 text-accent" />
-              <h3 className="font-semibold text-primary">Calm Currents</h3>
-            </div>
-            <p className="text-sm text-secondary">
-              Ride the waves of tranquility with breathing bubbles and mindful moments.
-            </p>
-          </div>
-        </div>
-      </div>
+
       
       {/* Quick Actions */}
       <div className="grid md:grid-cols-3 gap-4">

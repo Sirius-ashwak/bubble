@@ -10,7 +10,7 @@
     --background: 250 250 250;
     --foreground: 18 18 18;
     --muted: 240 240 240;
-    --muted-foreground: 100 100 100;
+    --muted-foreground: 60 60 60;  /* #3C3C3C - Better contrast secondary text */
     --border: 220 220 220;
     --primary: 18 18 18;
     --primary-foreground: 250 250 250;
@@ -28,7 +28,7 @@
     --background: 18 18 18;        /* #121212 - Material Design dark */
     --foreground: 255 255 255;     /* #FFFFFF - High contrast white text */
     --muted: 30 30 30;             /* #1E1E1E - Cards/surfaces */
-    --muted-foreground: 200 200 200; /* #C8C8C8 - Better contrast secondary text */
+    --muted-foreground: 240 240 240; /* #F0F0F0 - Much better contrast secondary text */
     --border: 51 51 51;            /* #333333 - Subtle borders */
     --primary: 224 224 224;        /* #E0E0E0 - Primary using main text color */
     --primary-foreground: 18 18 18; /* #121212 - Primary text on light */

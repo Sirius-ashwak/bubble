@@ -15,20 +15,15 @@ import {
   Zap,
   Shield,
   Feather,
-  Flower2,
-  Sparkles,
-  RefreshCw
+  Flower2
 } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { generateCopingBubbles } from '../utils/aiService'
 
 const CopingToolkit = () => {
   const { getCopingSuggestion, recordCopingActivity, moods, loading } = useApp()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [customSuggestions, setCustomSuggestions] = useState([])
   const [completedActivities, setCompletedActivities] = useState([])
-  const [aiCopingBubbles, setAiCopingBubbles] = useState(null)
-  const [loadingAI, setLoadingAI] = useState(false)
 
   const categories = [
     { id: 'all', label: 'All', icon: Star, color: 'purple' },
@@ -206,7 +201,6 @@ const CopingToolkit = () => {
     if (moods.length > 0) {
       const latestMood = moods[0]
       loadSuggestions(latestMood.emotion)
-      loadAICopingBubbles(latestMood)
     }
   }, [moods])
 
@@ -214,28 +208,6 @@ const CopingToolkit = () => {
     const suggestions = await getCopingSuggestion(mood)
     if (Array.isArray(suggestions)) {
       setCustomSuggestions(suggestions)
-    }
-  }
-
-  const loadAICopingBubbles = async (moodData) => {
-    setLoadingAI(true)
-    try {
-      const bubbles = await generateCopingBubbles(
-        moodData.emotion, 
-        moodData.intensity, 
-        moodData.description || ''
-      )
-      setAiCopingBubbles(bubbles)
-    } catch (error) {
-      console.error('Error loading AI coping bubbles:', error)
-    } finally {
-      setLoadingAI(false)
-    }
-  }
-
-  const refreshAICopingBubbles = async () => {
-    if (moods.length > 0) {
-      await loadAICopingBubbles(moods[0])
     }
   }
 
@@ -280,61 +252,6 @@ const CopingToolkit = () => {
         </p>
       </div>
 
-      {/* AI Coping Bubbles */}
-      {aiCopingBubbles && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="card mb-6 bg-accent/10"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold flex items-center">
-              <Sparkles className="w-5 h-5 mr-2 text-accent" />
-              Personalized Bubble Relief Activities
-            </h3>
-            <button
-              onClick={refreshAICopingBubbles}
-              disabled={loadingAI}
-              className="p-2 rounded-full hover:bg-accent/10 transition-colors"
-            >
-              <RefreshCw className={`w-4 h-4 text-accent ${loadingAI ? 'animate-spin' : ''}`} />
-            </button>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-4">
-            {aiCopingBubbles.activities.map((activity, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.02 }}
-                className="p-4 card-hover border border-accent/20"
-              >
-                <div className="flex items-center space-x-2 mb-2">
-                  <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                    <span className="text-accent-foreground text-sm font-medium">{activity.duration.split(' ')[0]}</span>
-                  </div>
-                  <h4 className="font-semibold text-foreground">{activity.name}</h4>
-                </div>
-                <p className="text-sm text-muted-foreground mb-2">{activity.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs px-2 py-1 bg-accent/20 text-accent rounded-full">
-                    {activity.type}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{activity.duration}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          {aiCopingBubbles.encouragingNote && (
-            <div className="mt-4 p-3 bg-accent/10 rounded-xl">
-              <p className="text-sm text-foreground italic">
-                💜 {aiCopingBubbles.encouragingNote}
-              </p>
-            </div>
-          )}
-        </motion.div>
-      )}
-
       {/* AI Suggestions */}
       {customSuggestions.length > 0 && (
         <motion.div
@@ -344,7 +261,7 @@ const CopingToolkit = () => {
         >
           <h3 className="text-lg font-semibold mb-3 flex items-center">
             <Star className="w-5 h-5 mr-2 text-accent" />
-            Quick Relief Bubbles
+            Personalized Relief Activities
           </h3>
           <div className="grid md:grid-cols-3 gap-3">
             {customSuggestions.map((suggestion, index) => (
@@ -477,32 +394,7 @@ const CopingToolkit = () => {
         </AnimatePresence>
       </div>
 
-      {/* Quick Relief Bubbles */}
-      <div className="mt-8 card">
-        <h2 className="text-xl font-semibold mb-4">Quick Relief Bubbles</h2>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { emoji: '🌊', text: 'Take 3 deep breaths' },
-            { emoji: '💧', text: 'Drink water' },
-            { emoji: '🌸', text: 'Smell something nice' },
-            { emoji: '🎵', text: 'Play favorite song' },
-            { emoji: '🤗', text: 'Give yourself a hug' },
-            { emoji: '☀️', text: 'Look out the window' },
-            { emoji: '📱', text: 'Call a friend' },
-            { emoji: '🍫', text: 'Enjoy a small treat' }
-          ].map((bubble, index) => (
-            <motion.button
-              key={index}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              className="px-4 py-2 rounded-full bg-accent/10 hover:bg-accent/15 transition-all"
-            >
-              <span className="text-2xl mr-2">{bubble.emoji}</span>
-              <span className="text-sm font-medium">{bubble.text}</span>
-            </motion.button>
-          ))}
-        </div>
-      </div>
+
     </motion.div>
   )
 }

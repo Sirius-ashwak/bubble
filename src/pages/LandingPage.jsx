@@ -111,48 +111,6 @@ const LandingPage = ({ onEnter }) => {
           </div>
         </div>
 
-        {/* Values Section - Minimal */}
-        <div className="border-t border-border/50">
-          <div className="container mx-auto px-8 py-24">
-            <div className="max-w-4xl mx-auto text-center space-y-12">
-              <div className="space-y-4">
-                <h2 className="text-2xl font-light text-foreground">Built on Stoic Principles</h2>
-                <p className="text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Embrace clarity over chaos. Focus on what you can control. Find strength in simplicity.
-                  Your journey toward mental wellness begins with mindful awareness.
-                </p>
-              </div>
-              
-              {/* Principle Cards - Horizontal Layout */}
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center space-y-3">
-                  <div className="w-10 h-10 mx-auto rounded-full bg-muted flex items-center justify-center">
-                    <Brain className="w-5 h-5 text-accent" />
-                  </div>
-                  <h4 className="text-sm font-medium text-foreground">Mindful Awareness</h4>
-                  <p className="text-xs text-muted-foreground">Observe without judgment</p>
-                </div>
-                
-                <div className="text-center space-y-3">
-                  <div className="w-10 h-10 mx-auto rounded-full bg-muted flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-accent" />
-                  </div>
-                  <h4 className="text-sm font-medium text-foreground">Inner Resilience</h4>
-                  <p className="text-xs text-muted-foreground">Strength through reflection</p>
-                </div>
-                
-                <div className="text-center space-y-3">
-                  <div className="w-10 h-10 mx-auto rounded-full bg-muted flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-accent" />
-                  </div>
-                  <h4 className="text-sm font-medium text-foreground">Gentle Growth</h4>
-                  <p className="text-xs text-muted-foreground">Progress over perfection</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Footer */}
         <div className="border-t border-border/30">
           <div className="container mx-auto px-8 py-12">

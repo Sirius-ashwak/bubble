@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, MessageCircle, Palette, Sparkles, Heart } from 'lucide-react'
+import { ChevronRight, MessageCircle, Palette } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { emotionCategories, getAllEmotions } from '../utils/emotionData'
-import { analyzeMoodBubble } from '../utils/aiService'
+import { getAllEmotions } from '../utils/emotionData'
 import { useNavigate } from 'react-router-dom'
 
 const MoodCheckIn = () => {
@@ -13,8 +12,6 @@ const MoodCheckIn = () => {
   const [intensity, setIntensity] = useState(5)
   const [description, setDescription] = useState('')
   const [view, setView] = useState('wheel') // 'wheel' or 'text'
-  const [aiAnalysis, setAiAnalysis] = useState(null)
-  const [analyzingText, setAnalyzingText] = useState(false)
 
   // Helper function to calculate luminance and determine optimal text color for accessibility
   const getOptimalTextStyling = (hexColor) => {
@@ -40,57 +37,18 @@ const MoodCheckIn = () => {
 
   const handleEmotionSelect = (emotion) => {
     setSelectedEmotion(emotion)
-    setAiAnalysis(null) // Clear any previous AI analysis
-  }
-
-  const handleTextAnalysis = async () => {
-    if (!description.trim()) return
-    
-    setAnalyzingText(true)
-    try {
-      const analysis = await analyzeMoodBubble(description)
-      setAiAnalysis(analysis)
-      
-      // Auto-select the AI-detected emotion if available
-      if (analysis.mood && analysis.mood !== 'mixed') {
-        const foundEmotion = findEmotionByName(analysis.mood)
-        if (foundEmotion) {
-          setSelectedEmotion(foundEmotion)
-        }
-      }
-      
-      // Set intensity based on AI analysis
-      const intensityMap = { low: 3, medium: 6, high: 9 }
-      setIntensity(intensityMap[analysis.intensity] || 5)
-      
-    } catch (error) {
-      console.error('Error analyzing mood:', error)
-    } finally {
-      setAnalyzingText(false)
-    }
-  }
-
-  const findEmotionByName = (emotionName) => {
-    for (const category of Object.values(emotionCategories)) {
-      for (const energyLevel of Object.values(category)) {
-        const found = energyLevel.find(e => e.name.toLowerCase() === emotionName.toLowerCase())
-        if (found) return found
-      }
-    }
-    return null
   }
 
   const handleSubmit = async () => {
     if (!selectedEmotion && !description) return
     
     const moodData = {
-      emotion: selectedEmotion?.name || aiAnalysis?.mood || 'Undefined',
+      emotion: selectedEmotion?.name || 'Mixed',
       icon: selectedEmotion?.icon || null,
       gradient: selectedEmotion?.gradient || 'from-gray-200 to-gray-300',
       color: selectedEmotion?.color || '#D8E9FF',
       intensity,
-      description,
-      aiAnalysis // Store AI analysis for future insights
+      description
     }
     
     await addMood(moodData)
@@ -99,7 +57,6 @@ const MoodCheckIn = () => {
     setSelectedEmotion(null)
     setIntensity(5)
     setDescription('')
-    setAiAnalysis(null)
     
     // Navigate to dashboard after a moment
     setTimeout(() => {
@@ -279,57 +236,15 @@ const MoodCheckIn = () => {
             
             <div className="flex justify-between items-center mt-4">
               <p className="text-sm text-muted-foreground">
-                AI will help identify and understand your emotions
+                Express yourself freely - your feelings matter
               </p>
-              
-              <button
-                onClick={handleTextAnalysis}
-                disabled={!description.trim() || analyzingText}
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center space-x-2 ${
-                  description.trim() 
-                    ? 'btn-primary hover:shadow-lg transform hover:scale-105' 
-                    : 'bg-muted text-muted-foreground cursor-not-allowed'
-                }`}
-              >
-                <Sparkles size={16} />
-                <span>{analyzingText ? 'Analyzing...' : 'Analyze Emotions'}</span>
-              </button>
             </div>
-
-            {/* AI Analysis Result */}
-            {aiAnalysis && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-6 p-4 bg-accent/10 rounded-2xl border border-accent/20"
-              >
-                <div className="flex items-start space-x-3">
-                  <span className="text-3xl">{aiAnalysis.bubbleEmoji}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <h4 className="font-semibold text-accent">
-                        AI detected: {aiAnalysis.mood} ({aiAnalysis.intensity} intensity)
-                      </h4>
-                      <Heart size={16} className="text-accent" />
-                    </div>
-                    <p className="text-sm text-foreground mb-2">
-                      {aiAnalysis.supportiveMessage}
-                    </p>
-                    {aiAnalysis.secondaryEmotions && aiAnalysis.secondaryEmotions.length > 0 && (
-                      <p className="text-xs text-accent">
-                        Also sensing: {aiAnalysis.secondaryEmotions.join(', ')}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Submit Button */}
-      {(selectedEmotion || description || aiAnalysis) && (
+      {(selectedEmotion || description) && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

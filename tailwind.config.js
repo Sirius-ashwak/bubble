@@ -29,7 +29,7 @@ module.exports = {
           text: '#E0E0E0',            // Off-white for reduced eye strain
           border: '#333333',          // Subtle borders
           muted: '#2A2A2A',           // Muted surfaces
-          'text-secondary': '#B0B0B0' // Secondary text
+          'text-secondary': '#F0F0F0' // Secondary text - improved contrast
         }
       },
       fontFamily: {
