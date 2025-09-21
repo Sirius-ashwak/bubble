@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Heart, BookOpen, Sparkles, TrendingUp, Calendar, Clock, Star, RefreshCw, Brain } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { generateDailyEncouragement, generateBubbleInsights } from '../utils/aiService'
+import { getEmotionIcon, getEmotionGradient } from '../utils/emotionData'
 import { format } from 'date-fns'
 
 const Dashboard = () => {
@@ -349,17 +350,27 @@ const Dashboard = () => {
               recentMoods.map(mood => (
                 <div
                   key={mood.id}
-                  className="flex items-center space-x-3 p-3 rounded-xl bg-muted"
+                  className="group flex items-center space-x-4 p-4 rounded-2xl bg-gradient-to-r from-muted to-muted/70 hover:from-accent/10 hover:to-accent/5 transition-all duration-300 shadow-sm hover:shadow-md"
                 >
-                  <span className="text-2xl">{mood.emoji || '💭'}</span>
+                  {(() => {
+                    const EmotionIcon = getEmotionIcon(mood.emotion)
+                    const gradient = getEmotionGradient(mood.emotion)
+                    return (
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg group-hover:scale-105 transition-transform`}>
+                        <EmotionIcon className="w-5 h-5 text-white" />
+                      </div>
+                    )
+                  })()}
                   <div className="flex-1">
-                    <p className="font-medium text-primary">{mood.emotion}</p>
+                    <p className="font-semibold text-primary group-hover:text-accent transition-colors">{mood.emotion}</p>
                     <p className="text-sm text-secondary">
                       {format(new Date(mood.timestamp), 'MMM d, h:mm a')}
                     </p>
                   </div>
-                  <div className="text-sm text-secondary">
-                    {mood.intensity}/10
+                  <div className="text-right">
+                    <div className="px-3 py-1 rounded-full bg-accent/10 text-accent font-semibold text-sm">
+                      {mood.intensity}/10
+                    </div>
                   </div>
                 </div>
               ))

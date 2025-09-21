@@ -46,7 +46,7 @@
   }
   
   body {
-    background: rgb(var(--background));
+    background: linear-gradient(135deg, rgb(var(--background)) 0%, rgb(var(--muted) / 0.3) 100%);
     color: rgb(var(--foreground));
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -54,6 +54,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px; /* Base font size for better readability */
+    background-attachment: fixed;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -132,11 +133,19 @@
     background: rgb(var(--muted));
   }
   
-  /* Clean Cards */
+  /* Enhanced Cards */
   .card {
-    @apply rounded-2xl p-6 transition-all duration-200;
-    background: rgb(var(--background));
+    @apply rounded-2xl p-6 transition-all duration-300;
+    background: rgb(255 255 255 / 0.8);
     border: 1px solid rgb(var(--border));
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .dark .card {
+    background: rgb(var(--muted) / 0.8);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.12);
   }
   
   .card-hover {
@@ -144,13 +153,21 @@
   }
   
   .card-hover:hover {
-    border-color: rgb(var(--muted-foreground) / 0.3);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    border-color: rgb(var(--accent) / 0.3);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+    transform: translateY(-2px);
+  }
+
+  .dark .card-hover:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.25), 0 10px 10px -5px rgb(0 0 0 / 0.1);
   }
   
   .card-muted {
     @apply rounded-2xl p-6;
-    background: rgb(var(--muted));
+    background: rgb(var(--muted) / 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(var(--border) / 0.5);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.04);
   }
   
   /* Input Fields */

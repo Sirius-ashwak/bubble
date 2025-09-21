@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight, MessageCircle, Palette, Sparkles, Heart } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { emotionCategories, getEmotionColor, getEmotionEmoji } from '../utils/emotionData'
+import { emotionCategories, getEmotionColor, getEmotionIcon, getEmotionGradient } from '../utils/emotionData'
 import { analyzeMoodBubble } from '../utils/aiService'
 import { useNavigate } from 'react-router-dom'
 
@@ -63,7 +63,8 @@ const MoodCheckIn = () => {
     
     const moodData = {
       emotion: selectedEmotion?.name || aiAnalysis?.mood || 'Undefined',
-      emoji: selectedEmotion?.emoji || aiAnalysis?.bubbleEmoji || '💭',
+      icon: selectedEmotion?.icon || null,
+      gradient: selectedEmotion?.gradient || 'from-gray-200 to-gray-300',
       color: selectedEmotion?.color || '#D8E9FF',
       intensity,
       description,
@@ -150,21 +151,26 @@ const MoodCheckIn = () => {
                         <motion.button
                           key={emotion.name}
                           onClick={() => handleEmotionSelect(emotion)}
-                          whileHover={{ scale: 1.1 }}
+                          whileHover={{ scale: 1.05, y: -2 }}
                           whileTap={{ scale: 0.95 }}
-                          className={`emotion-bubble px-4 py-2 ${
+                          className={`group relative overflow-hidden rounded-2xl px-6 py-4 transition-all duration-300 shadow-lg hover:shadow-xl ${
                             selectedEmotion?.name === emotion.name
-                              ? 'ring-4 ring-accent shadow-lg'
-                              : ''
+                              ? 'ring-3 ring-accent ring-offset-2 shadow-2xl'
+                              : 'hover:shadow-xl'
                           }`}
-                          style={{
-                            backgroundColor: emotion.color + '30',
-                            borderColor: emotion.color,
-                            borderWidth: '2px'
-                          }}
                         >
-                          <span className="text-2xl mr-2">{emotion.emoji}</span>
-                          <span className="font-medium">{emotion.name}</span>
+                          <div className={`absolute inset-0 bg-gradient-to-br ${emotion.gradient} opacity-20 group-hover:opacity-30 transition-opacity`}></div>
+                          <div className="relative flex items-center space-x-3">
+                            {(() => {
+                              const IconComponent = emotion.icon
+                              return (
+                                <div className={`p-2 rounded-xl bg-gradient-to-br ${emotion.gradient} shadow-sm`}>
+                                  <IconComponent className="w-5 h-5 text-white" />
+                                </div>
+                              )
+                            })()}
+                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{emotion.name}</span>
+                          </div>
                         </motion.button>
                       ))}
                     </div>
@@ -291,15 +297,22 @@ const MoodCheckIn = () => {
       {/* Selected Emotion Display */}
       {selectedEmotion && (
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="fixed bottom-8 right-8 p-4 bg-background border border-border rounded-full shadow-2xl"
+          initial={{ opacity: 0, scale: 0, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="fixed bottom-8 right-8 p-6 bg-background border border-border rounded-3xl shadow-2xl backdrop-blur-sm"
         >
-          <div className="flex items-center space-x-3">
-            <span className="text-3xl">{selectedEmotion.emoji}</span>
+          <div className="flex items-center space-x-4">
+            {(() => {
+              const SelectedIcon = selectedEmotion.icon
+              return (
+                <div className={`p-3 rounded-2xl bg-gradient-to-br ${selectedEmotion.gradient} shadow-lg`}>
+                  <SelectedIcon className="w-6 h-6 text-white" />
+                </div>
+              )
+            })()}
             <div>
-              <p className="font-semibold">{selectedEmotion.name}</p>
-              <p className="text-sm text-muted-foreground">Intensity: {intensity}/10</p>
+              <p className="font-bold text-lg text-foreground">{selectedEmotion.name}</p>
+              <p className="text-sm text-accent font-medium">Intensity: {intensity}/10</p>
             </div>
           </div>
         </motion.div>
