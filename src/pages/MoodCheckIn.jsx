@@ -16,6 +16,28 @@ const MoodCheckIn = () => {
   const [aiAnalysis, setAiAnalysis] = useState(null)
   const [analyzingText, setAnalyzingText] = useState(false)
 
+  // Helper function to calculate luminance and determine optimal text color for accessibility
+  const getOptimalTextStyling = (hexColor) => {
+    // Convert hex to RGB
+    const r = parseInt(hexColor.slice(1, 3), 16)
+    const g = parseInt(hexColor.slice(3, 5), 16)
+    const b = parseInt(hexColor.slice(5, 7), 16)
+    
+    // Calculate relative luminance using WCAG formula
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    
+    // Determine if background is light (> 0.55) or dark (< 0.55)
+    const isLight = luminance > 0.55
+    
+    return {
+      textColor: isLight ? 'text-gray-900' : 'text-white',
+      textShadow: isLight ? 'drop-shadow-sm' : 'drop-shadow-lg',
+      // Enhanced contrast overlays for better text visibility
+      contrastOverlay: isLight ? 'bg-white/60' : 'bg-black/40',
+      textOutline: isLight ? '[text-shadow:_1px_1px_2px_rgb(255_255_255_/_80%)]' : '[text-shadow:_1px_1px_2px_rgb(0_0_0_/_80%)]'
+    }
+  }
+
   const handleEmotionSelect = (emotion) => {
     setSelectedEmotion(emotion)
     setAiAnalysis(null) // Clear any previous AI analysis
@@ -144,6 +166,8 @@ const MoodCheckIn = () => {
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-2 sm:px-4 max-w-5xl mx-auto">
                 {getAllEmotions().map((emotion, index) => {
                   const IconComponent = emotion.icon
+                  const textStyling = getOptimalTextStyling(emotion.color)
+                  
                   // Create varied bubble sizes for organic, flowing feel - responsive
                   const sizeClasses = [
                     'w-20 h-20 sm:w-28 sm:h-28 text-sm sm:text-base',    // standard
@@ -169,22 +193,20 @@ const MoodCheckIn = () => {
                         background: `linear-gradient(135deg, ${emotion.color}f0, ${emotion.color}dd, ${emotion.color})`
                       }}
                     >
-                      {/* Elegant gradient overlays for depth and better text contrast */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/15" />
+                      {/* Enhanced contrast overlay for better text visibility */}
+                      <div className={`absolute inset-0 ${textStyling.contrastOverlay}`} />
                       
-                      {/* Subtle decorative icon - barely visible */}
+                      {/* Subtle decorative icon - adapts to text color */}
                       <div className="absolute top-3 right-3 opacity-20 group-hover:opacity-30 transition-opacity">
-                        <IconComponent className="w-4 h-4 text-white" aria-hidden="true" />
+                        <IconComponent className={`w-4 h-4 ${textStyling.textColor}`} aria-hidden="true" />
                       </div>
                       
-                      {/* Primary emotion name - elegant typography */}
+                      {/* Primary emotion name - accessible typography with optimal contrast */}
                       <div className="relative z-10 text-center px-2 sm:px-3">
-                        <span className={`font-bold text-white leading-tight tracking-wide drop-shadow-lg transition-all duration-300 ${
+                        <span className={`font-bold ${textStyling.textColor} leading-tight tracking-wide ${textStyling.textShadow} ${textStyling.textOutline} transition-all duration-300 ${
                           selectedEmotion?.name === emotion.name 
-                            ? 'drop-shadow-lg scale-105' 
-                            : 'group-hover:scale-105 group-hover:drop-shadow-md'
+                            ? 'scale-105' 
+                            : 'group-hover:scale-105'
                         }`}>
                           {emotion.name}
                         </span>
@@ -339,10 +361,17 @@ const MoodCheckIn = () => {
                 background: `linear-gradient(135deg, ${selectedEmotion.color}f0, ${selectedEmotion.color}dd, ${selectedEmotion.color})`
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/25 to-transparent" />
-              <span className="text-white font-bold text-sm relative z-10">
-                {selectedEmotion.name}
-              </span>
+              {(() => {
+                const previewStyling = getOptimalTextStyling(selectedEmotion.color)
+                return (
+                  <>
+                    <div className={`absolute inset-0 ${previewStyling.contrastOverlay}`} />
+                    <span className={`${previewStyling.textColor} font-bold text-sm relative z-10 ${previewStyling.textShadow} ${previewStyling.textOutline}`}>
+                      {selectedEmotion.name}
+                    </span>
+                  </>
+                )
+              })()}
             </div>
             <div>
               <p className="font-bold text-xl text-foreground">{selectedEmotion.name}</p>

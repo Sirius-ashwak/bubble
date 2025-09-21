@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Heart, BookOpen, Sparkles, TrendingUp, Calendar, Clock, Star, RefreshCw, Brain } from 'lucide-react'
 import { useApp } from '../context/AppContext'
 import { generateDailyEncouragement, generateBubbleInsights } from '../utils/aiService'
-import { getEmotionIcon, getEmotionGradient } from '../utils/emotionData'
+import { getEmotionIcon, getEmotionGradient, getAllEmotions } from '../utils/emotionData'
 import { format } from 'date-fns'
 
 const Dashboard = () => {
@@ -355,9 +355,31 @@ const Dashboard = () => {
                   {(() => {
                     const EmotionIcon = getEmotionIcon(mood.emotion)
                     const gradient = getEmotionGradient(mood.emotion)
+                    
+                    // Get optimal text color for the mood color (similar to MoodCheckIn logic)
+                    const getOptimalIconColor = (emotionName) => {
+                      // Find the emotion object to get its color
+                      const emotions = getAllEmotions()
+                      const emotion = emotions.find(e => e.name.toLowerCase() === emotionName.toLowerCase())
+                      if (!emotion) return 'text-white'
+                      
+                      // Convert hex to RGB and calculate luminance
+                      const hexColor = emotion.color
+                      const r = parseInt(hexColor.slice(1, 3), 16)
+                      const g = parseInt(hexColor.slice(3, 5), 16)
+                      const b = parseInt(hexColor.slice(5, 7), 16)
+                      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+                      
+                      return luminance > 0.55 ? 'text-gray-900' : 'text-white'
+                    }
+                    
+                    const iconColor = getOptimalIconColor(mood.emotion)
+                    
                     return (
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg group-hover:scale-105 transition-transform`}>
-                        <EmotionIcon className="w-5 h-5 text-white" />
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${gradient} shadow-lg group-hover:scale-105 transition-transform relative overflow-hidden`}>
+                        {/* Add contrast overlay for better visibility */}
+                        <div className={`absolute inset-0 ${iconColor === 'text-gray-900' ? 'bg-white/40' : 'bg-black/30'}`} />
+                        <EmotionIcon className={`w-5 h-5 ${iconColor} relative z-10 drop-shadow-sm`} />
                       </div>
                     )
                   })()}
