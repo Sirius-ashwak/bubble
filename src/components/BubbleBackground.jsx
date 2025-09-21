@@ -16,7 +16,7 @@ const BubbleBackground = () => {
           left: Math.random() * 100,
           delay: Math.random() * 10,
           duration: Math.random() * 20 + 30,
-          color: ['#667eea', '#764ba2', '#f093fb', '#23a6d5'][Math.floor(Math.random() * 4)]
+          colorVariant: Math.floor(Math.random() * 4)
         })
       }
       setBubbles(newBubbles)
@@ -52,7 +52,13 @@ const BubbleBackground = () => {
             width: bubble.size,
             height: bubble.size,
             left: `${bubble.left}%`,
-            background: `radial-gradient(circle at 30% 30%, ${bubble.color}40, transparent 70%)`,
+            background: bubble.colorVariant === 0 ? 
+              'radial-gradient(circle at 30% 30%, rgb(var(--accent) / 0.25), transparent 70%)' :
+              bubble.colorVariant === 1 ?
+              'radial-gradient(circle at 30% 30%, rgb(var(--foreground) / 0.15), transparent 70%)' :
+              bubble.colorVariant === 2 ?
+              'radial-gradient(circle at 30% 30%, rgb(var(--accent) / 0.35), transparent 70%)' :
+              'radial-gradient(circle at 30% 30%, rgb(var(--foreground) / 0.2), transparent 70%)',
             filter: 'blur(40px)',
           }}
           initial={{ y: '110vh', x: 0, scale: 0 }}
@@ -75,12 +81,12 @@ const BubbleBackground = () => {
       {particles.map(particle => (
         <motion.div
           key={`particle-${particle.id}`}
-          className="absolute rounded-full bg-white"
+          className="absolute rounded-full bg-background"
           style={{
             width: particle.size,
             height: particle.size,
             left: `${particle.left}%`,
-            boxShadow: `0 0 ${particle.size * 2}px rgba(255, 255, 255, 0.8)`,
+            boxShadow: `0 0 ${particle.size * 2}px rgb(var(--foreground) / 0.8)`,
           }}
           initial={{ y: '100vh', opacity: 0 }}
           animate={{ 
@@ -98,7 +104,12 @@ const BubbleBackground = () => {
       ))}
       
       {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: 'linear-gradient(to top, rgb(var(--background) / 0.5), transparent, transparent)'
+        }}
+      />
     </div>
   )
 }

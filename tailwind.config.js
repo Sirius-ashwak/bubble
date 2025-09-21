@@ -22,18 +22,14 @@ module.exports = {
         success: 'rgb(var(--success) / <alpha-value>)',
         warning: 'rgb(var(--warning) / <alpha-value>)',
         error: 'rgb(var(--error) / <alpha-value>)',
-        bubble: {
-          pink: '#FFE4F1',
-          purple: '#E8D5FF',
-          blue: '#D8E9FF',
-          mint: '#D5FFE8',
-          yellow: '#FFF9D5',
-          coral: '#FFD8D5'
-        },
-        dark: {
-          bg: '#1A1B26',
-          card: '#24283B',
-          text: '#A9B1D6'
+        // Monochrome design system - sophisticated and minimalist
+        mono: {
+          background: '#121212',      // Material Design dark
+          surface: '#1E1E1E',         // Cards/surfaces  
+          text: '#E0E0E0',            // Off-white for reduced eye strain
+          border: '#333333',          // Subtle borders
+          muted: '#2A2A2A',           // Muted surfaces
+          'text-secondary': '#B0B0B0' // Secondary text
         }
       },
       fontFamily: {
